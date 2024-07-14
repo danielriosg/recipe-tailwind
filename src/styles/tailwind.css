@@ -1,3 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.my-class {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Example of avoiding properties not applicable to certain display types */
+.my-block-class {
+  display: block;
+  /* vertical-align: middle; <- Remove this line */
+}
