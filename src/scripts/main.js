@@ -1,4 +1,4 @@
-// main.js
+// src/scripts/main.js
 
 document.addEventListener("DOMContentLoaded", () => {
   const recipeList = document.getElementById("recipe-list");
