@@ -23,7 +23,12 @@
         showLoadingIndicator();
         const response = await fetch(endpoint);
         if (!response.ok) {
-          throw new Error(`Error: ${response.status} ${response.statusText}`);
+          if (response.status === 400) {
+            console.error("Invalid request:", response.statusText);
+            displayErrorMessage("Invalid search query. Please try again.");
+          } else {
+            throw new Error(`Error: ${response.status} ${response.statusText}`);
+          }
         }
         const data = await response.json();
         renderRecipes(data.hits);
@@ -34,15 +39,35 @@
         hideLoadingIndicator();
       }
     }
+
+function showLoadingIndicator() {
+  const loadingIndicator = document.getElementById("loading-indicator");
+  loadingIndicator.style.display = "block";
+}
+
+function hideLoadingIndicator() {
+  const loadingIndicator = document.getElementById("loading-indicator");
+  loadingIndicator.style.display = "none";
+}
+
   function displayErrorMessage(message) {
+    // Check if an error message is already being displayed
+    const existingErrorContainer = document.querySelector(".error-message");
+    if (existingErrorContainer) {
+      return; // Exit the function if an error message is already present
+    }
+
+    // Create and display the error message
     const errorContainer = document.createElement("div");
     errorContainer.className =
       "error-message bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative";
     errorContainer.innerText = message;
     document.body.appendChild(errorContainer);
+
+    // Remove the error message after 5 seconds
     setTimeout(() => {
       errorContainer.remove();
-    }, 5000); // Remove the error message after 5 seconds
+    }, 5000);
   }
     function renderRecipes(recipes) {
       recipeList.innerHTML = "";
