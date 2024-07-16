@@ -6,14 +6,24 @@
     const searchInput = document.getElementById("search-input");
     const recipeList = document.getElementById("recipe-list");
 
-    searchButton.addEventListener("click", () => {
+    function searchRecipes() {
       const query = searchInput.value.trim();
       if (query) {
         fetchRecipes(query);
       } else {
         displayErrorMessage("Please enter a search term.");
       }
+    }
+
+    searchButton.addEventListener("click", searchRecipes);
+
+    searchInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.keyCode === 13) {
+        searchRecipes();
+      }
     });
+
+    
 
 
 
